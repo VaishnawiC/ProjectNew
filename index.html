@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <section class="track_section layout_padding">
+        <div class="track_bg_box">
+          <img src="images/detection.jpg" alt="">
+        </div>
+        <div class="container" >
+          <h1 class="" style="font-weight: 900; margin-bottom: 20px;">Defect Detection</h1>
+          <form id="upload-form">
+              <label for="image" style="font-size: 20px; color: rgb(233, 233, 233);">Choose an image:</label>
+              <input type="file" name="image" id="image" class="input-image" accept="image/*" style="font-size: 16px; font-weight: 600;" required>
+              <br>+
+              <input type="submit" value="Submit" class="submit-button" style="color: rgb(227, 227, 227);">
+          </form>
+      
+          <h2 class="" style="margin-top: 30px;">Status:</h2>
+          <p id="status-message" style="font-size: 16px; font-weight: 600; color: red;"></p>
+      
+          <h2 style="color: green; font-weight: 800;">Result:</h2>
+          <img id="result-image" src="" height="380px" width="450px" alt="Result Image">
+          
+        <script>
+          document.getElementById('upload-form').addEventListener('submit', function (e) {
+              e.preventDefault();
+              
+              var formData = new FormData();
+              formData.append('image', document.getElementById('image').files[0]);
+    
+              // Display "Image processing" status
+              const imgResult = document.getElementById('status-message');
+              document.getElementById('status-message').innerText = 'Image processing';
+    
+              fetch('https://AditiBhosale.pythonanywhere.com/', {
+                  method: 'POST',
+                  body: formData,
+              })
+              .then(response => response.json())
+              .then(data => {
+                  // Display "Fetching from server" status
+                  document.getElementById('status-message').innerText = 'Fetching from server';
+    
+                  document.getElementById('result-image').src = 'data:' + data.mime_type + ';base64,' + data.result_image;
+    
+                  // Display "Detection done" status
+                  document.getElementById('status-message').innerText = 'Detection done';
+              })
+              .catch(error => {
+                  // Display error message
+                  document.getElementById('status-message').innerText = 'Error: ' + error;
+                  console.error('Error:', error);
+              });
+          });
+      </script>
+</body>
+</html>

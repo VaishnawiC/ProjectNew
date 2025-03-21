@@ -1,0 +1,10 @@
+torch==2.2.0
+torchvision==0.17.0
+torchaudio==2.2.0
+ultralytics==8.1.0
+flask==3.0.2
+numpy==1.26.4
+opencv-python==4.9.0.80
+pillow==10.2.0
+requests==2.31.0
+gunicorn==21.2.0
